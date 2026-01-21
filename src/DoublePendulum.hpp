@@ -17,4 +17,4 @@ private:
     Integrator _integrator;
 };
 
-#endif /* DOUBLE_PENDULUM */
+#endif // DOUBLE_PENDULUM

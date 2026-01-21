@@ -8,4 +8,4 @@ public:
   void integrateImpl(State& s, double dt);
 };
 
-#endif /* INTEGRATOR_EULER */
+#endif // INTEGRATOR_EULER

@@ -9,6 +9,9 @@ public:
   State(double theta1, double theta2, double omega1, double omega2) :
         _theta1(theta1), _theta2(theta2), _omega1(omega1), _omega2(omega2) {};
 
+  State operator+(State other);
+  State operator*(double other);
+
   void print();
 
   double _theta1;
@@ -17,4 +20,4 @@ public:
   double _omega2;
 };
 
-#endif /* end of include guard: STATE */
+#endif // STATE

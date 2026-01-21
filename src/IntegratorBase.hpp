@@ -11,4 +11,4 @@ public:
   }
 };
 
-#endif /* INTEGRATOR_BASE */
+#endif // INTEGRATOR_BASE
