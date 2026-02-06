@@ -6,9 +6,6 @@
 #include "Integrator.hpp"
 
 class IntegratorEuler final : public Integrator {
-private:
-  std::vector<State> _saved_states;
-
 public:
   // for description look at base class hpp file
   void integrate(
