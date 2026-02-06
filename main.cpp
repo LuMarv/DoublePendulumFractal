@@ -13,5 +13,11 @@ int main() {
   // new tests
   State s3 = s2 + s1;
   s3.print();
+  IntegratorEuler e;
+  std::vector<double> v(5);
+  e.integrate(0, 1, s3, 0.1, v);
+  // virtual keyword test
+  Integrator* e2 = new IntegratorEuler;
+  e2->integrate(0, 1, s3, 0.1, v);
   return 0;
 }
