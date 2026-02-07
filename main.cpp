@@ -4,20 +4,8 @@
 #include "src/IntegratorEuler.hpp"
 
 int main() {
-  std::cout << "Hello this is the first test (for CMakeLists.txt)" << '\n';
-  State s1(1, 0, 0, 0);
+  State s1(1, 2, 3, 4);
   s1.print();
-  State s2(1, 2, 3, 4);
-  s2.print();
-  (s2 += s2).print();
-  // new tests
-  State s3 = s2 + s1;
-  s3.print();
-  IntegratorEuler e;
-  std::vector<double> v(5);
-  e.integrate(0, 1, s3, 0.1, v);
-  // virtual keyword test
-  Integrator* e2 = new IntegratorEuler;
-  e2->integrate(0, 1, s3, 0.1, v);
+  std::cout << "The State currently looks like this: " << s1 << std::endl;
   return 0;
 }
