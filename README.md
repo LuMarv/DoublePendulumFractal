@@ -12,5 +12,6 @@ This is a short test!!!
 mkdir build && cd build</br>
 cmake ..</br>
 make</br>
+./simulation</br>
 
-* profit
+* profit 
