@@ -1,4 +1,4 @@
-#include "Integrator.hpp"
+#include "../include/Integrator.hpp"
 
 /*
 Wow, such empty!

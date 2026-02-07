@@ -1,4 +1,4 @@
-#include "IntegratorEuler.hpp"
+#include "../include/IntegratorEuler.hpp"
 
 // implementations
 void IntegratorEuler::integrate(const double t0,

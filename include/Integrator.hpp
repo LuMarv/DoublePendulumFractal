@@ -17,7 +17,7 @@ public:
     const double t1,                  // final time for integration
     const State& y,                   // initial state for integration
     const double dt,                  // step size (or first step size if adaptive)
-    const std::vector<double>& t_eval  // points in time for which to save States
+    const std::vector<double>& t_eval // points in time for which to save States
   ) = 0;
 };
 
