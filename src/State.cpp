@@ -1,6 +1,5 @@
 #include "../include/State.hpp"
 
-// There is not too much to see here
 void State::print() const {
   std::cout << "[ theta1=" << _vals[0] << ", theta2=" << _vals[1]
             << ", omega1=" << _vals[2] << ", omega2=" << _vals[3] << " ]"
