@@ -2,6 +2,7 @@
 #include "include/State.hpp"
 #include "include/Integrator.hpp"
 #include "include/IntegratorEuler.hpp"
+#include "include/RHS.hpp"
 
 int main() {
   State s1(1, 2, 3, 4);
