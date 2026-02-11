@@ -4,6 +4,7 @@
 #include <vector>
 #include "State.hpp"
 #include "Integrator.hpp"
+#include "RHS.hpp"
 
 class IntegratorEuler final : public Integrator {
 public:

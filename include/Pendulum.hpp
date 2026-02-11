@@ -1,0 +1,17 @@
+#ifndef PENDULUM_HPP
+#define PENDULUM_HPP
+
+#include "State.hpp"
+#include "IntegratorEuler.hpp"
+#include "RHS.hpp"
+#include <memory>
+
+class Pendulum {
+private:
+  Integrator* _I;
+public:
+  Pendulum(Integrator* I) : _I(I) {}
+  ~Pendulum() { delete _I; }
+};
+
+#endif // PENDULUM_HPP
