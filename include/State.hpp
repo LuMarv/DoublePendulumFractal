@@ -24,6 +24,8 @@ public:
   // operators
   State& operator+=(const State& other);
   State& operator*=(const double other);
+        double& operator[](size_t i)       { return _vals[i]; }
+  const double& operator[](size_t i) const { return _vals[i]; }
 
   void print() const;
 

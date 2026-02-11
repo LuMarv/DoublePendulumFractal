@@ -10,5 +10,13 @@ int main() {
   std::cout << "The State currently looks like this: " << s1 << std::endl;
   State s3;
   s3.print();
+  for (size_t i = 0; i < 4; i++) {
+    std::cout << s1[i] << '\n';
+  }
+  s1[1] = 15;
+
+  for (size_t i = 0; i < 4; i++) {
+    std::cout << s1[i] << '\n';
+  }
   return 0;
 }

@@ -4,7 +4,7 @@
 #include "State.hpp"
 #include "IntegratorEuler.hpp"
 #include "RHS.hpp"
-#include <memory>
+#include <memory> // for smart pointers
 
 class Pendulum {
 private:
