@@ -7,7 +7,7 @@
 namespace RHSfunc {
   // RHS of the system still requires implementation
   // might be that we want to pass paramrters as well
-  State dpRHS(State& s);
+  State dpRHS(const State& s);
 }
 
 #endif // PENDULUM_RHS_HPP
