@@ -14,7 +14,8 @@ public:
     const double t1,
     const State& y,
     const double dt,
-    const std::vector<double>& t_eval
+    const std::vector<double>& t_eval,
+    std::vector<State>& eval_states
   ) override;
 };
 

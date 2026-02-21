@@ -6,20 +6,20 @@
 
 class State {
 private:
-  // contains theta1, theta2, omega1, omega2 in that order
+  // contains theta1, theta2, p1, p2 in that order
   std::array<double, 4> _vals;
 public:
   // constructors
   State() { for (int i = 0; i < 4; i++) { _vals[i] = 0; } }
   constexpr explicit State(const std::array<double, 4>& vals) : _vals(vals) {}
-  constexpr explicit State(double theta1, double theta2, double omega1, double omega2)
-                            : _vals{theta1, theta2, omega1, omega2} {}
+  constexpr explicit State(double theta1, double theta2, double p1, double p2)
+                            : _vals{theta1, theta2, p1, p2} {}
 
   // getters
   double theta1() const { return _vals[0]; }
   double theta2() const { return _vals[1]; }
-  double omega1() const { return _vals[2]; }
-  double omega2() const { return _vals[3]; }
+  double p1() const { return _vals[2]; }
+  double p2() const { return _vals[3]; }
 
   // operators
   State& operator+=(const State& other);

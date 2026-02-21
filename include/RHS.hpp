@@ -2,6 +2,7 @@
 #define PENDULUM_RHS_HPP
 
 #include "State.hpp"
+#include <cmath>
 
 namespace RHSfunc {
   // RHS of the system still requires implementation
