@@ -14,4 +14,6 @@ public:
   ~Pendulum() { delete _I; }
 };
 
+// implement run() -> see simulation.cpp (marvin)
+
 #endif // PENDULUM_HPP

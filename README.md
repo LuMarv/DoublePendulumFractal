@@ -15,3 +15,8 @@ make</br>
 ./simulation</br>
 
 * profit 
+
+# workflow when merging with main
+* rebase own branch on main
+* only merge with main when project compiles
+* use main.cpp only for calling (developer-)test functions, which are placed in other files (for easier merging) -> until test frame work is integrated
