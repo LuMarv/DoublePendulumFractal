@@ -1,6 +1,4 @@
-#include "../include/IntegratorEuler.hpp"
-#include "../include/Pendulum.hpp"
-#include <vector>
+#include "../include/Simulation.hpp"
 
 void simulate() {
 

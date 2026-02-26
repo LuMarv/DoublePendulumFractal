@@ -4,6 +4,7 @@
 #include "include/Integrator.hpp"
 #include "include/IntegratorEuler.hpp"
 #include "include/RHS.hpp"
+#include "include/Simulation.hpp"
 
 int main(int argc, char** argv) {
 
