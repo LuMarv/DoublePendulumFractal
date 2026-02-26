@@ -9,9 +9,15 @@
 int main(int argc, char** argv) {
 
   // arguments decide on:
-  // integrator type
-  // integration time [s]
-  // integration steps (or a measure therefore with adaptive step width)
+  // integrator type (std::string)
+  // integration time [s] (double)
+  // integration steps (or a measure therefore with adaptive step width) (double)
+
+  if (argc != 4) {
+    std::cout << argc << std::endl;
+    std::string msg = "Call program the following way: \n./simulation <integrator type> <simulation end time> <step size>";
+    std::cerr << msg << '\n';
+  }
 
   std::string integrator_method = argv[1];
   int integrator_index = 0;

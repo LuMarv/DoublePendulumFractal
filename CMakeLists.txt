@@ -13,6 +13,7 @@ enable_testing()
 file(GLOB SRC_FILES src/*.cpp)
 
 add_library(simulation_lib ${SRC_FILES})
+target_compile_options(simulation_lib PRIVATE -O3 -march=native)
 
 target_include_directories(simulation_lib PUBLIC ${PROJECT_SOURCE_DIR}/include)
 
