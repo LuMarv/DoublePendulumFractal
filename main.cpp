@@ -15,13 +15,10 @@ int main(int argc, char** argv) {
   std::string integrator_method = argv[1];
   int integrator_index = 0;
 
-  switch(integrator_method) {
-    case "Euler" or "euler":
+  if (integrator_method == "Euler") {
     integrator_index = 0;
-    break;
-    default:
-    integrator_index = 0;
-    break;
+  } else if (integrator_method == "RK4") {
+    integrator_index = 1;
   }
   // include other two arguments and give to simulation()
 

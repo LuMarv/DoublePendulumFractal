@@ -10,7 +10,7 @@ private:
   std::array<double, 4> _vals;
 public:
   // constructors
-  State() { for (int i = 0; i < 4; i++) { _vals[i] = 0; } }
+  State() : _vals{0, 0, 0, 0} {}
   constexpr explicit State(const std::array<double, 4>& vals) : _vals(vals) {}
   constexpr explicit State(double theta1, double theta2, double p1, double p2)
                             : _vals{theta1, theta2, p1, p2} {}
@@ -26,6 +26,7 @@ public:
   State& operator*=(const double other);
         double& operator[](size_t i)       { return _vals[i]; }
   const double& operator[](size_t i) const { return _vals[i]; }
+  bool operator==(const State& other);
 
   void print() const;
 

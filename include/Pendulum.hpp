@@ -12,6 +12,9 @@ private:
 public:
   Pendulum(Integrator* I) : _I(I) {}
   ~Pendulum() { delete _I; }
+
+  // methods
+  void run();
 };
 
 // implement run() -> see simulation.cpp (marvin)

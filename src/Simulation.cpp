@@ -1,4 +1,5 @@
-#include "IntegratorEuler.hpp"
+#include "../include/IntegratorEuler.hpp"
+#include "../include/Pendulum.hpp"
 #include <vector>
 
 void simulate() {
@@ -19,14 +20,14 @@ void simulate() {
             // how to decide on integrator type? 
             // -> if statements are no bottleneck whatsoever here
             Integrator* I;
-            if(...){
+            if(true){
                 I = new IntegratorEuler();
-            } else if(...){
-                I = new IntegratorRK45();
+            } else if(false){
+                //I = new IntegratorRK45();
             }
             // and so on (jan)
 
-            Pendulum p(std::move(I)); // rule of three
+            Pendulum p(std::move(I)); // rule of five
             p.run(); // has to be implemented
         }
     }

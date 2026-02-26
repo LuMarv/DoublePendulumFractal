@@ -21,6 +21,13 @@ State& State::operator*=(const double other) {
   return *this;
 }
 
+bool State::operator==(const State& other) {
+  return     (_vals[0] == other._vals[0]) 
+          && (_vals[1] == other._vals[1]) 
+          && (_vals[2] == other._vals[2]) 
+          && (_vals[3] == other._vals[3]);
+}
+
 // friend functions
 std::ostream& operator<<(std::ostream& os, State& s) {
   os << "[ " << s._vals[0] << ", " << s._vals[1]
