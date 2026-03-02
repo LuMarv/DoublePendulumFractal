@@ -28,6 +28,7 @@ int main(int argc, char** argv) {
     integrator_index = 1;
   }
   // include other two arguments and give to simulation()
+  simulate(integrator_index);
 
 
 

@@ -1,6 +1,6 @@
 #include "../include/Simulation.hpp"
 
-void simulate() {
+void simulate(int integrator_index) {
 
     int size1 = 1;
     int size2 = 1;
@@ -18,12 +18,17 @@ void simulate() {
             // how to decide on integrator type? 
             // -> if statements are no bottleneck whatsoever here
             Integrator* I;
-            if(true){
-                I = new IntegratorEuler();
-            } else if(false){
-                //I = new IntegratorRK45();
+
+            switch(integrator_index){
+                case 0:
+                    I = new IntegratorEuler();
+                    break;
+                case 1:
+                    //I = new IntegratorRK45();
+                    break;
+                default:
+                    I = new IntegratorEuler();
             }
-            // and so on (jan)
 
             Pendulum p(std::move(I)); // rule of five
             p.run(); // has to be implemented
