@@ -15,42 +15,40 @@ void IntegratorEuler::integrate(const double t0,
 
   try {
     double integration_time = t1-t0;
-    if(integration_time > 0 && dt > 0) {
 
-      double time = t0;
-      double eval_counter = 0;
+    if(integration_time <= 0) {
+      throw std::invalid_argument("Integration time is less than or equal to zero.");
+    }
+    if(dt <= 0) {
+      throw std::invalid_argument("Integration time step is less than or equal to zero.");
+    }
 
-      // to save first state
+    double time = t0;
+    double eval_counter = 0;
+
+    // to save first state
+    if(eval_counter < t_eval.size() && time <= t_eval[eval_counter]) {
+      // or interpolate
+      eval_states[eval_counter] = y;
+      eval_counter++;
+    }
+
+    while(time < t1) {
+      y += dt*dy;
+      
       if(eval_counter < t_eval.size() && time <= t_eval[eval_counter]) {
         // or interpolate
         eval_states[eval_counter] = y;
         eval_counter++;
       }
+      time += dt;
+    }
 
-      while(time < t1) {
-        y += dt*dy;
-        
-        if(eval_counter < t_eval.size() && time <= t_eval[eval_counter]) {
-          // or interpolate
-          eval_states[eval_counter] = y;
-          eval_counter++;
-        }
-        time += dt;
-      }
-    }
-    else {
-      throw(integration_time, dt);
-    }
   }
-  catch (double time, double dt){
-    if(time <0){
-      std::cerr << "Error occured: The integration time is " << time << ", but should be larger than zero.";
-    }
-    if(dt < 0){
-      std::cerr << "Error occured: The time-integration interval is " << dt << ", but should be larger than zero.";
-    }
-  }
-  
 
+  catch(std::invalid_argument e) {
+    std::cerr << "Error occured: " << e.what() << std::endl;
+  }
+ 
   return;
 }

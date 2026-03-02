@@ -5,6 +5,7 @@
 #include "State.hpp"
 #include "Integrator.hpp"
 #include "RHS.hpp"
+#include <exception>
 
 class IntegratorEuler final : public Integrator {
 public:
