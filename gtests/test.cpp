@@ -90,12 +90,10 @@ TEST(PendulumConstruction, IsMoveable) {
 TEST(PendulumConstruction, UniqueOwnership) {
   auto integrator = std::make_unique<IntegratorEuler>();
   IntegratorEuler* raw = integrator.get();
-
   {
     Pendulum p(std::move(integrator));
     EXPECT_EQ(p.getIntegrator(), raw);
   }
-
   // if this test reaches here without crash, then there is no double delete
   SUCCEED();
 }
