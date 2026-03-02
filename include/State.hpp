@@ -1,5 +1,5 @@
-#ifndef STATE
-#define STATE
+#ifndef STATE_H
+#define STATE_H
 
 #include <iostream>
 #include <array>
@@ -26,12 +26,12 @@ public:
   State& operator*=(const double other);
         double& operator[](size_t i)       { return _vals[i]; }
   const double& operator[](size_t i) const { return _vals[i]; }
-  bool operator==(const State& other);
+  bool operator==(const State& other) const;
 
   void print() const;
 
   // friend functions
-  friend std::ostream& operator<<(std::ostream& os, State& s);
+  friend std::ostream& operator<<(std::ostream& os, const State& s);
 };
 
 // non member functions (in header because inlined!!!)
@@ -57,4 +57,4 @@ inline State operator*(const double d, const State& s) {
 }
 
 
-#endif // STATE
+#endif // STATE_H
