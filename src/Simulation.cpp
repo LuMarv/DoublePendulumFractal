@@ -17,17 +17,17 @@ void simulate(int integrator_index) {
             
             // how to decide on integrator type? 
             // -> if statements are no bottleneck whatsoever here
-            Integrator* I;
+            std::unique_ptr<Integrator> I;
 
             switch(integrator_index){
                 case 0:
-                    I = new IntegratorEuler();
+                    I = std::make_unique<IntegratorEuler>();
                     break;
                 case 1:
-                    //I = new IntegratorRK45();
+                    //I = std::make_unique<IntegratorRK4>();
                     break;
                 default:
-                    I = new IntegratorEuler();
+                    I = std::make_unique<IntegratorEuler>();
             }
 
             Pendulum p(std::move(I)); // rule of five

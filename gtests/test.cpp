@@ -39,6 +39,63 @@ TEST(TEST_STATE, OPERATORS) {
   EXPECT_TRUE(2 * s2 == s4);
 }
 
-TEST(TEST_PENDULUM, CONSTRUCTION) {
+TEST(PendulumConstruction, DefaultUsesEuler) {
   Pendulum p;
+
+  EXPECT_NE(p.getIntegrator(), nullptr);
+  EXPECT_NE(dynamic_cast<IntegratorEuler*>(p.getIntegrator()), nullptr);
+}
+
+TEST(PendulumConstruction, AcceptsCustomIntegrator) {
+  auto integrator = std::make_unique<IntegratorEuler>();
+  IntegratorEuler* raw = integrator.get();
+
+  Pendulum p(std::move(integrator));
+
+  EXPECT_EQ(p.getIntegrator(), raw);
+}
+
+TEST(PendulumConstruction, MoveConstructorTransfersOwnership) {
+  Pendulum p1(std::make_unique<IntegratorEuler>());
+  Integrator* original = p1.getIntegrator();
+
+  Pendulum p2(std::move(p1));
+
+  EXPECT_EQ(p2.getIntegrator(), original);
+  EXPECT_EQ(p1.getIntegrator(), nullptr);
+}
+
+TEST(PendulumConstruction, MoveAssignmentTransfersOwnership) {
+  Pendulum p1(std::make_unique<IntegratorEuler>());
+  Pendulum p2;
+
+  Integrator* original = p1.getIntegrator();
+
+  p2 = std::move(p1);
+
+  EXPECT_EQ(p2.getIntegrator(), original);
+  EXPECT_EQ(p1.getIntegrator(), nullptr);
+}
+
+TEST(PendulumConstruction, IsNotCopyable) {
+  static_assert(!std::is_copy_constructible<Pendulum>::value);
+  static_assert(!std::is_copy_assignable<Pendulum>::value);
+}
+
+TEST(PendulumConstruction, IsMoveable) {
+  static_assert(std::is_move_constructible<Pendulum>::value);
+  static_assert(std::is_move_assignable<Pendulum>::value);
+}
+
+TEST(PendulumConstruction, UniqueOwnership) {
+  auto integrator = std::make_unique<IntegratorEuler>();
+  IntegratorEuler* raw = integrator.get();
+
+  {
+    Pendulum p(std::move(integrator));
+    EXPECT_EQ(p.getIntegrator(), raw);
+  }
+
+  // if this test reaches here without crash, then there is no double delete
+  SUCCEED();
 }
