@@ -2,6 +2,8 @@
 #define INTEGRATOREULER
 
 #include <vector>
+#include <stdexcept>
+#include <iostream>
 #include "State.hpp"
 #include "Integrator.hpp"
 #include "RHS.hpp"

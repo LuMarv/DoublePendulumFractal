@@ -1,5 +1,6 @@
 #include "gtest/gtest.h"
 #include "../include/State.hpp"
+#include "../include/Pendulum.hpp"
 #include <array>
 
 TEST(TEST_STATE, CONSTRUCTION) {
@@ -36,4 +37,8 @@ TEST(TEST_STATE, OPERATORS) {
   // operator* test
   EXPECT_TRUE(s2 * 2 == s4);
   EXPECT_TRUE(2 * s2 == s4);
+}
+
+TEST(TEST_PENDULUM, CONSTRUCTION) {
+  Pendulum p;
 }

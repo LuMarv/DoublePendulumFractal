@@ -10,6 +10,7 @@ class Pendulum {
 private:
   Integrator* _I;
 public:
+  Pendulum() : _I(new IntegratorEuler) {}
   Pendulum(Integrator* I) : _I(I) {}
   ~Pendulum() { delete _I; }
 
