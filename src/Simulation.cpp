@@ -1,11 +1,12 @@
 #include "../include/Simulation.hpp"
 
-void simulate(int integrator_index) {
+void simulate(const int integrator_index, const double time_end, const double step_size) {
 
-    int size1 = 1;
-    int size2 = 1;
+    int size1 = 1; // pixels x
+    int size2 = 1; // pixels y
+    // int size3 = int(time_end / step_size) + 1; // #integration steps
     int size3 = 2000; // #integration steps
-    int size4 = 5; // integration time
+    int size4 = time_end; // integration time
 
     std::vector<std::vector<std::vector<State>>> t(
         size1, std::vector<std::vector<State>>(
@@ -30,9 +31,8 @@ void simulate(int integrator_index) {
                     I = std::make_unique<IntegratorEuler>();
             }
 
-            Pendulum p(std::move(I)); // rule of five
+            Pendulum p(t[0][0], std::move(I)); // rule of five
             p.run(); // has to be implemented
         }
     }
-
 }

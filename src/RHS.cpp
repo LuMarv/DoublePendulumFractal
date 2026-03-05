@@ -1,8 +1,5 @@
 #include "../include/RHS.hpp"
 
-
-// todo #1
-
 State RHSfunc::dpRHS(const State& s) {
   // we can specify masses here for now, although we will probably not neet them
   double m1 = 1; double m2 = 1; double l1 = 1; double l2 = 1;

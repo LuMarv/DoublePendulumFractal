@@ -1,7 +1,9 @@
 #include "gtest/gtest.h"
 #include "../include/State.hpp"
 #include "../include/Pendulum.hpp"
+#include "../include/RHS.hpp"
 #include <array>
+#include <vector>
 
 TEST(TEST_STATE, CONSTRUCTION) {
   State s1; // should be zero state
@@ -40,7 +42,8 @@ TEST(TEST_STATE, OPERATORS) {
 }
 
 TEST(PendulumConstruction, DefaultUsesEuler) {
-  Pendulum p;
+  std::vector<State> s(1);
+  Pendulum p(s);
 
   EXPECT_NE(p.getIntegrator(), nullptr);
   EXPECT_NE(dynamic_cast<IntegratorEuler*>(p.getIntegrator()), nullptr);
@@ -49,14 +52,16 @@ TEST(PendulumConstruction, DefaultUsesEuler) {
 TEST(PendulumConstruction, AcceptsCustomIntegrator) {
   auto integrator = std::make_unique<IntegratorEuler>();
   IntegratorEuler* raw = integrator.get();
+  std::vector<State> s(1);
 
-  Pendulum p(std::move(integrator));
+  Pendulum p(s, std::move(integrator));
 
   EXPECT_EQ(p.getIntegrator(), raw);
 }
 
 TEST(PendulumConstruction, MoveConstructorTransfersOwnership) {
-  Pendulum p1(std::make_unique<IntegratorEuler>());
+  std::vector<State> s(1);
+  Pendulum p1(s, std::make_unique<IntegratorEuler>());
   Integrator* original = p1.getIntegrator();
 
   Pendulum p2(std::move(p1));
@@ -66,8 +71,9 @@ TEST(PendulumConstruction, MoveConstructorTransfersOwnership) {
 }
 
 TEST(PendulumConstruction, MoveAssignmentTransfersOwnership) {
-  Pendulum p1(std::make_unique<IntegratorEuler>());
-  Pendulum p2;
+  std::vector<State> s(1);
+  Pendulum p1(s, std::make_unique<IntegratorEuler>());
+  Pendulum p2(s);
 
   Integrator* original = p1.getIntegrator();
 
@@ -88,12 +94,46 @@ TEST(PendulumConstruction, IsMoveable) {
 }
 
 TEST(PendulumConstruction, UniqueOwnership) {
+  std::vector<State> s(1);
   auto integrator = std::make_unique<IntegratorEuler>();
   IntegratorEuler* raw = integrator.get();
   {
-    Pendulum p(std::move(integrator));
+    Pendulum p(s, std::move(integrator));
     EXPECT_EQ(p.getIntegrator(), raw);
   }
   // if this test reaches here without crash, then there is no double delete
   SUCCEED();
+}
+
+TEST(RHSFuncTest, ZeroStateProducesZeroDerivative) {
+    State s(0.0, 0.0, 0.0, 0.0);
+
+    State ds = RHSfunc::dpRHS(s);
+
+    EXPECT_DOUBLE_EQ(ds.theta1(), 0.0);
+    EXPECT_DOUBLE_EQ(ds.theta2(), 0.0);
+    EXPECT_DOUBLE_EQ(ds.p1(), 0.0);
+    EXPECT_DOUBLE_EQ(ds.p2(), 0.0);
+}
+
+TEST(RHSFuncTest, GravityContribution) {
+    State s(M_PI/2, M_PI/2, 0.0, 0.0);
+
+    State ds = RHSfunc::dpRHS(s);
+
+    EXPECT_NEAR(ds.theta1(), 0.0, 1e-12);
+    EXPECT_NEAR(ds.theta2(), 0.0, 1e-12);
+    EXPECT_NEAR(ds.p1(), -19.62, 1e-12);
+    EXPECT_NEAR(ds.p2(), 0.0, 1e-12);
+}
+
+TEST(RHSFuncTest, MomentumCoupling) {
+    State s(0.0, 0.0, 1.0, 0.0);
+
+    State ds = RHSfunc::dpRHS(s);
+
+    EXPECT_NEAR(ds.theta1(), 1.0/3.0, 1e-12);
+    EXPECT_NEAR(ds.theta2(), -1.0/3.0, 1e-12);
+    EXPECT_NEAR(ds.p1(), 0.0, 1e-12);
+    EXPECT_NEAR(ds.p2(), 0.0, 1e-12);
 }

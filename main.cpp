@@ -20,6 +20,8 @@ int main(int argc, char** argv) {
   }
 
   std::string integrator_method = argv[1];
+  double t_end = std::stod(argv[2]);
+  double stepsize = std::stod(argv[3]);
   int integrator_index = 0;
 
   if (integrator_method == "Euler") {
@@ -28,7 +30,7 @@ int main(int argc, char** argv) {
     integrator_index = 1;
   }
   // include other two arguments and give to simulation()
-  simulate(integrator_index);
+  simulate(integrator_index, t_end, stepsize);
 
 
 

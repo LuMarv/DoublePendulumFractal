@@ -5,6 +5,6 @@
 #include "../include/Pendulum.hpp"
 #include <vector>
 
-void simulate(int integrator_index);
+void simulate(const int integrator_index, const double time_end, const double step_size);
 
 #endif //SIMULATION_HH
