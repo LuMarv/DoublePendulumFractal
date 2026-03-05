@@ -4,10 +4,10 @@ void simulate(const int integrator_index, const double time_end, const double st
 
   int size1 = 1; // pixels x
   int size2 = 1; // pixels y
-  // int size3 = int(time_end / step_size) + 1; // #integration steps
   int size3 = 2000; // #integration steps
   int size4 = time_end; // integration time
 
+  // 3D tensor of shape (size1, size2, size3)
   std::vector<std::vector<std::vector<State>>> t(
     size1, std::vector<std::vector<State>>(
     size2, std::vector<State>(
@@ -31,6 +31,8 @@ void simulate(const int integrator_index, const double time_end, const double st
           I = std::make_unique<IntegratorEuler>();
       }
 
+      // please use different constructor when running an actual simulation later
+      // correct constrcutor is indicated in Pendulum.hpp
       Pendulum p(t[i][j], std::move(I)); // rule of five
       p.run(); // has to be implemented
     }
