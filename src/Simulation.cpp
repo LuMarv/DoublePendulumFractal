@@ -13,8 +13,8 @@ void simulate(const int integrator_index, const double time_end, const double st
     size2, std::vector<State>(
     size3)));
 
-  for(int i = 0; i < size1; i++){
-    for(int j = 0; j < size2; j++){
+  for(int i = 0; i < size1; i++) {
+    for(int j = 0; j < size2; j++) {
             
       // how to decide on integrator type? 
       // -> if statements are no bottleneck whatsoever here
