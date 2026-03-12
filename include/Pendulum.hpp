@@ -11,6 +11,7 @@ class Pendulum {
 private:
   std::unique_ptr<Integrator> _I;
   State _y0;
+  State _yfinal;
   double _t_final = 1;
   double _dt = 0.1;
   std::vector<State>* _eval_states; // Pendulum doesn't own this memory (no need for memory management)
