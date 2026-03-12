@@ -1,6 +1,9 @@
 #include "gtest/gtest.h"
 #include "../include/State.hpp"
+#include "../include/Pendulum.hpp"
+#include "../include/RHS.hpp"
 #include <array>
+#include <vector>
 
 TEST(TEST_STATE, CONSTRUCTION) {
   State s1; // should be zero state
@@ -36,4 +39,101 @@ TEST(TEST_STATE, OPERATORS) {
   // operator* test
   EXPECT_TRUE(s2 * 2 == s4);
   EXPECT_TRUE(2 * s2 == s4);
+}
+
+TEST(PendulumConstruction, DefaultUsesEuler) {
+  std::vector<State> s(1);
+  Pendulum p(s);
+
+  EXPECT_NE(p.getIntegrator(), nullptr);
+  EXPECT_NE(dynamic_cast<IntegratorEuler*>(p.getIntegrator()), nullptr);
+}
+
+TEST(PendulumConstruction, AcceptsCustomIntegrator) {
+  auto integrator = std::make_unique<IntegratorEuler>();
+  IntegratorEuler* raw = integrator.get();
+  std::vector<State> s(1);
+
+  Pendulum p(s, std::move(integrator));
+
+  EXPECT_EQ(p.getIntegrator(), raw);
+}
+
+TEST(PendulumConstruction, MoveConstructorTransfersOwnership) {
+  std::vector<State> s(1);
+  Pendulum p1(s, std::make_unique<IntegratorEuler>());
+  Integrator* original = p1.getIntegrator();
+
+  Pendulum p2(std::move(p1));
+
+  EXPECT_EQ(p2.getIntegrator(), original);
+  EXPECT_EQ(p1.getIntegrator(), nullptr);
+}
+
+TEST(PendulumConstruction, MoveAssignmentTransfersOwnership) {
+  std::vector<State> s(1);
+  Pendulum p1(s, std::make_unique<IntegratorEuler>());
+  Pendulum p2(s);
+
+  Integrator* original = p1.getIntegrator();
+
+  p2 = std::move(p1);
+
+  EXPECT_EQ(p2.getIntegrator(), original);
+  EXPECT_EQ(p1.getIntegrator(), nullptr);
+}
+
+TEST(PendulumConstruction, IsNotCopyable) {
+  static_assert(!std::is_copy_constructible<Pendulum>::value);
+  static_assert(!std::is_copy_assignable<Pendulum>::value);
+}
+
+TEST(PendulumConstruction, IsMoveable) {
+  static_assert(std::is_move_constructible<Pendulum>::value);
+  static_assert(std::is_move_assignable<Pendulum>::value);
+}
+
+TEST(PendulumConstruction, UniqueOwnership) {
+  std::vector<State> s(1);
+  auto integrator = std::make_unique<IntegratorEuler>();
+  IntegratorEuler* raw = integrator.get();
+  {
+    Pendulum p(s, std::move(integrator));
+    EXPECT_EQ(p.getIntegrator(), raw);
+  }
+  // if this test reaches here without crash, then there is no double delete
+  SUCCEED();
+}
+
+TEST(RHSFuncTest, ZeroStateProducesZeroDerivative) {
+    State s(0.0, 0.0, 0.0, 0.0);
+
+    State ds = RHSfunc::dpRHS(s);
+
+    EXPECT_DOUBLE_EQ(ds.theta1(), 0.0);
+    EXPECT_DOUBLE_EQ(ds.theta2(), 0.0);
+    EXPECT_DOUBLE_EQ(ds.p1(), 0.0);
+    EXPECT_DOUBLE_EQ(ds.p2(), 0.0);
+}
+
+TEST(RHSFuncTest, GravityContribution) {
+    State s(M_PI/2, M_PI/2, 0.0, 0.0);
+
+    State ds = RHSfunc::dpRHS(s);
+
+    EXPECT_NEAR(ds.theta1(), 0.0, 1e-12);
+    EXPECT_NEAR(ds.theta2(), 0.0, 1e-12);
+    EXPECT_NEAR(ds.p1(), -19.62, 1e-12);
+    EXPECT_NEAR(ds.p2(), 0.0, 1e-12);
+}
+
+TEST(RHSFuncTest, MomentumCoupling) {
+    State s(0.0, 0.0, 1.0, 0.0);
+
+    State ds = RHSfunc::dpRHS(s);
+
+    EXPECT_NEAR(ds.theta1(), 1.0/3.0, 1e-12);
+    EXPECT_NEAR(ds.theta2(), -1.0/3.0, 1e-12);
+    EXPECT_NEAR(ds.p1(), 0.0, 1e-12);
+    EXPECT_NEAR(ds.p2(), 0.0, 1e-12);
 }
